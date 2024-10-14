@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приложение за паркинги</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBBbjNMDbBEXEqj3MYCS8zBTLNT_0Ycfw&libraries=places&callback=initMap" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <label for="radius">Радиус (метри):</label>
+            <input type="number" id="radius" value="2000" />
+            <button id="search">Търси паркинги</button>
+            <button id="add-parking-toggle">➕</button>
+        </div>
+        <div class="icon-container">
+            <img src="static/parking.png" alt="Parking Icon" class="icon">
+            <img src="static/car.png" alt="Car Icon" class="icon">
+            <img src="static/location.png" alt="Map Icon" class="icon">
+            <img src="static/clock.png" alt="Clock Icon" class="icon">
+        </div>
+        <div id="add-parking-form" style="display: none;"> <!-- Формата за добавяне на паркинг -->
+            <h3>Добави нов паркинг</h3>
+            <input type="text" id="parking-name" placeholder="Име на паркинга" />
+            <input type="number" id="parking-latitude" placeholder="Ширина" />
+            <input type="number" id="parking-longitude" placeholder="Дължина" />
+            <input type="text" id="parking-opening-hours" placeholder="Работно време" />
+            <button id="submit-parking">Добави</button>
+        </div>
+
+        
+        
+        
+        <div id="map"></div>
+    </div>
+    <script src="static/script.js"></script>
+
+    <link rel="manifest" href="static/manifest.json">
+
+</body>
+</html>

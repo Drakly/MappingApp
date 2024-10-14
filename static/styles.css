@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 800px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.controls {
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.controls label {
+    margin-right: 10px;
+}
+
+.controls input {
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff9800;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #e68a00;
+}
+
+#map {
+    height: 60vh; /* Задайте височината на картата */
+}
+
+.add-parking-container {
+    padding: 20px;
+    background-color: #e3f2fd; /* Светлосин фон за добавяне на паркинг */
+    border-radius: 12px;
+    margin: 20px; /* Разстояние от останалата част на страницата */
+}
+
+.add-parking-container h2 {
+    margin-bottom: 15px;
+    color: #333; /* Тъмен текст за заглавието */
+}
+
+.add-parking-container label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #4CAF50; /* Зелени надписи за етикетите */
+}
+
+.add-parking-container input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.add-parking-container button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff9800;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-parking-container button:hover {
+    background-color: #e68a00;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: space-around; /* Разпределя иконите равномерно */
+    padding: 20px; /* Добавя малко разстояние около контейнера */
+}
+
+.icon {
+    width: 50px; /* Задай ширина на иконите */
+    height: auto; /* Запазва пропорцията */
+    transition: transform 0.2s; /* Добавя ефект на трансформация при задържане */
+}
+
+.icon:hover {
+    transform: scale(1.1); /* Увеличава иконата при задържане */
+}
