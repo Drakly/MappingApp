@@ -7,14 +7,28 @@
     "theme_color": "#4CAF50",
     "icons": [
         {
-            "src": "static/icon-192x192.png",
-            "sizes": "192x192",
+            "src": "/static/icon.png",
+            "sizes": "500x500",
             "type": "image/png"
         },
         {
-            "src": "static/icon-512x512.png",
-            "sizes": "512x512",
+            "src": "/static/icon.png",
+            "sizes": "500x500",
             "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/static/screenshot-1.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "label": "Main Screen"
+        },
+        {
+            "src": "/static/screenshot-deskctop-1.png",
+            "sizes": "1919x1079",
+            "type": "image/png",
+            "label": "Desktop View"
         }
     ]
 }

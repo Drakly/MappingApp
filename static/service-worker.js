@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v1';
+const CACHE_NAME = 'v2'; // Обновен кеш
 const urlsToCache = [
     '/',
     '/index.html',
@@ -8,7 +8,7 @@ const urlsToCache = [
     '/static/car.png',
     '/static/location.png',
     '/static/clock.png',
-    
+    '/static/offline.html' // Добавяме офлайн страницата
 ];
 
 self.addEventListener('install', (event) => {
@@ -24,22 +24,24 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
-                return response || fetch(event.request);
+                // Връща кеширания ресурс, ако е наличен, иначе изпълнява заявката
+                return response || fetch(event.request)
+                    .catch(() => caches.match('/static/offline.html'));
             })
     );
 });
 
-
-// service-worker.js
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/static/service-worker.js')
-            .then(registration => {
-                console.log('Service Worker registered with scope:', registration.scope);
-            })
-            .catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-    });
-}
-
+self.addEventListener('activate', (event) => {
+    // Премахва стари кешове
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
+});

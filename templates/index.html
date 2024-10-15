@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приложение за паркинги</title>
-    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="manifest" href="/static/manifest.json">
+    <link rel="ofline_page" href="/static/offline.html">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBBbjNMDbBEXEqj3MYCS8zBTLNT_0Ycfw&libraries=places&callback=initMap" async defer></script>
 </head>
 <body>
@@ -28,6 +30,8 @@
             <input type="number" id="parking-longitude" placeholder="Дължина" />
             <input type="text" id="parking-opening-hours" placeholder="Работно време" />
             <button id="submit-parking">Добави</button>
+            <button id="installButton">Инсталирай приложението</button>
+
         </div>
 
         
@@ -35,9 +39,10 @@
         
         <div id="map"></div>
     </div>
-    <script src="static/script.js"></script>
+    <script src="/static/script.js" defer></script>
 
-    <link rel="manifest" href="static/manifest.json">
+    
+
 
 </body>
 </html>

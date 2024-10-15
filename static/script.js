@@ -162,7 +162,7 @@ document.getElementById("submit-parking").addEventListener("click", () => {
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('static/service-worker.js')
             .then(registration => {
                 console.log('Service Worker registered with scope:', registration.scope);
             })
@@ -171,3 +171,49 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                return cache.addAll(urlsToCache);
+            })
+            .catch((error) => {
+                console.error('Грешка при кеширане:', error);
+            })
+    );
+});
+
+let deferredPrompt;
+const installButton = document.getElementById('install-button');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installButton.style.display = 'block'; // Покажи бутона за инсталиране
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const installButton = document.getElementById('installButton');
+    if (installButton) { // Увери се, че инсталационният бутон съществува
+        installButton.addEventListener('click', () => {
+            // Тук добави кода за инсталиране на приложението
+            installButton.style.display = 'none'; // Скрий бутона за инсталиране
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+            console.log('Потребителят е приел инсталирането');
+        } else {
+            console.log('Потребителят е отказал инсталирането');
+        }
+        deferredPrompt = null;
+    });
+            console.log('Инсталиране на приложението...');
+        });
+    } else {
+        console.error('Инсталационният бутон не беше намерен.');
+    }
+});
+
