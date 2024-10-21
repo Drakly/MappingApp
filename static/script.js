@@ -1,3 +1,7 @@
+let потребителЛокация; // Дефинираме променлива за потребителската локация
+let directionsService; // Декларираме глобално променливата за Directions Service
+let directionsRenderer; // Декларираме глобално directionsRenderer
+
 function initMap() {
     const софия = { lat: 42.6977, lng: 23.3219 };
     const карта = new google.maps.Map(document.getElementById("map"), {
@@ -5,7 +9,7 @@ function initMap() {
         zoom: 12,
     });
 
-    let потребителЛокация; // Дефинираме променлива за потребителската локация
+    let currentParkingLocation; // Локацията на текущия паркинг
     let markers = []; // Глобален масив за съхранение на маркерите
 
     // Проверка за текущата локация на потребителя
@@ -34,6 +38,27 @@ function initMap() {
         handleLocationError(false, карта.getCenter());
     }
 
+    // Инициализация на Directions Service и Renderer
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer({
+        suppressMarkers: true, // Не показвай стандартните маркери
+    });
+    directionsRenderer.setMap(карта);
+
+    // Добавяне на бутон "Стоп"
+    const stopButton = document.createElement("button");
+    stopButton.innerText = "Стоп";
+    stopButton.style.position = "absolute";
+    stopButton.style.top = "10px";
+    stopButton.style.right = "10px";
+    stopButton.style.zIndex = "1000";
+    карта.controls[google.maps.ControlPosition.TOP_RIGHT].push(stopButton);
+
+    stopButton.addEventListener("click", () => {
+        directionsRenderer.setMap(null); // Скрива маршрута
+        directionsRenderer.setDirections({}); // Изчистване на текущите указания
+    });
+
     function findParkingLots(location, map, radius) {
         const radiusValue = parseInt(radius); // Преобразуваме радиуса в число
 
@@ -58,6 +83,12 @@ function initMap() {
                         title: parking.name,
                     });
 
+                    // Записване на локацията на паркинга
+                    currentParkingLocation = {
+                        lat: parking.geometry.location.lat(),
+                        lng: parking.geometry.location.lng(),
+                    };
+
                     // Извличане на информация за детайли на паркинга
                     const detailsRequest = {
                         placeId: parking.place_id,
@@ -77,6 +108,7 @@ function initMap() {
                                     <h3>${parking.name}</h3>
                                     ${работноВреме}
                                     ${рейтинг}
+                                    <button class="navigate-button" data-lat="${currentParkingLocation.lat}" data-lng="${currentParkingLocation.lng}">Навигирай</button>
                                 `,
                             });
 
@@ -95,7 +127,7 @@ function initMap() {
     // Функция за изчистване на маркерите
     function clearMarkers() {
         markers.forEach(marker => marker.setMap(null)); // Премахва всеки маркер от картата
-        markers = []; // Изчистване на масива
+        markers = []; // Изчиства масива
     }
 
     // Функция за обработка на грешки при геолокацията
@@ -121,99 +153,39 @@ function initMap() {
     });
 }
 
+document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("navigate-button")) {
+        const lat = parseFloat(event.target.getAttribute("data-lat"));
+        const lng = parseFloat(event.target.getAttribute("data-lng"));
 
+        console.log("Потребителска локация:", потребителЛокация); // Проверка на потребителската локация
+        console.log("Локация на паркинга:", { lat, lng }); // Проверка на локацията на паркинга
 
-document.getElementById("add-parking-toggle").addEventListener("click", () => {
-    const form = document.getElementById("add-parking-form");
-    form.style.display = form.style.display === "none" ? "block" : "none"; // Показва или скрива формата
-});
-
-// Обработчик за добавяне на нов паркинг
-document.getElementById("submit-parking").addEventListener("click", () => {
-    const name = document.getElementById("parking-name").value;
-    const latitude = document.getElementById("parking-latitude").value;
-    const longitude = document.getElementById("parking-longitude").value;
-    const openingHours = document.getElementById("parking-opening-hours").value;
-
-    // Изпраща POST заявка за добавяне на нов паркинг
-    fetch('/api/parkings', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            name,
-            latitude: parseFloat(latitude),
-            longitude: parseFloat(longitude),
-            opening_hours: openingHours,
-        }),
-    })
-    .then(response => {
-        if (response.ok) {
-            alert('Паркингът е добавен успешно!');
-            // Можеш да изчистиш формата, ако желаеш
-            document.getElementById("add-parking-form").reset();
+        if (typeof потребителЛокация !== 'undefined') {
+            getDirections(потребителЛокация, { lat, lng });
         } else {
-            alert('Грешка при добавяне на паркинга.');
+            alert("Не може да се извърши навигация.");
         }
-    });
-});
-
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('static/service-worker.js')
-            .then(registration => {
-                console.log('Service Worker registered with scope:', registration.scope);
-            })
-            .catch(error => {
-                console.error('Service Worker registration failed:', error);
-            });
-    });
-}
-
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                return cache.addAll(urlsToCache);
-            })
-            .catch((error) => {
-                console.error('Грешка при кеширане:', error);
-            })
-    );
-});
-
-let deferredPrompt;
-const installButton = document.getElementById('install-button');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installButton.style.display = 'block'; // Покажи бутона за инсталиране
-});
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const installButton = document.getElementById('installButton');
-    if (installButton) { // Увери се, че инсталационният бутон съществува
-        installButton.addEventListener('click', () => {
-            // Тук добави кода за инсталиране на приложението
-            installButton.style.display = 'none'; // Скрий бутона за инсталиране
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-            console.log('Потребителят е приел инсталирането');
-        } else {
-            console.log('Потребителят е отказал инсталирането');
-        }
-        deferredPrompt = null;
-    });
-            console.log('Инсталиране на приложението...');
-        });
-    } else {
-        console.error('Инсталационният бутон не беше намерен.');
     }
 });
 
+// Функцията за навигация
+function getDirections(startLocation, endLocation) {
+    console.log("Навигация от:", startLocation, "до:", endLocation); // Дебъг информация
+
+    if (startLocation && endLocation) {
+        const request = {
+            origin: new google.maps.LatLng(startLocation.lat, startLocation.lng),
+            destination: new google.maps.LatLng(endLocation.lat, endLocation.lng),
+            travelMode: google.maps.TravelMode.DRIVING,
+        };
+
+        directionsService.route(request, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+                directionsRenderer.setDirections(result); // Показва маршрута
+            } else {
+                alert("Не може да се извърши навигация.");
+            }
+        });
+    }
+}

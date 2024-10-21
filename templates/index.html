@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="manifest" href="/static/manifest.json">
     <link rel="ofline_page" href="/static/offline.html">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBBbjNMDbBEXEqj3MYCS8zBTLNT_0Ycfw&libraries=places&callback=initMap" async defer></script>
 </head>
 <body>
@@ -16,13 +20,15 @@
             <input type="number" id="radius" value="2000" />
             <button id="search">Търси паркинги</button>
             <button id="add-parking-toggle">➕</button>
+            <button id="navigate-button" style="display:none;">Навигирай до паркинга</button>
+
         </div>
-        <div class="icon-container">
+        <!-- <div class="icon-container">
             <img src="static/parking.png" alt="Parking Icon" class="icon">
             <img src="static/car.png" alt="Car Icon" class="icon">
             <img src="static/location.png" alt="Map Icon" class="icon">
             <img src="static/clock.png" alt="Clock Icon" class="icon">
-        </div>
+        </div> -->
         <div id="add-parking-form" style="display: none;"> <!-- Формата за добавяне на паркинг -->
             <h3>Добави нов паркинг</h3>
             <input type="text" id="parking-name" placeholder="Име на паркинга" />
@@ -41,7 +47,7 @@
     </div>
     <script src="/static/script.js" defer></script>
 
-    
+
 
 
 </body>
