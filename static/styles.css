@@ -1,122 +1,125 @@
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background-color: #f2f2f2;
+    color: #333;
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    width: 90%;
-    max-width: 800px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    align-items: center;
+    padding: 20px;
+    max-width: 400px; /* Adjust width for mobile feel */
+    margin: auto;
 }
 
 .controls {
-    padding: 20px;
-    background-color: #4CAF50;
-    color: white;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
 
-.controls label {
-    margin-right: 10px;
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.controls input {
-    border: none;
-    border-radius: 4px;
+input[type="number"], 
+input[type="text"] {
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: border-color 0.3s;
 }
 
-.controls button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #ff9800;
+input[type="number"]:focus, 
+input[type="text"]:focus {
+    border-color: #4CAF50; /* Green border on focus */
+}
+
+button {
+    background-color: #4CAF50; /* Green */
     color: white;
-    font-size: 16px;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.controls button:hover {
-    background-color: #e68a00;
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+button:disabled {
+    background-color: #ccc; /* Gray */
+    cursor: not-allowed;
 }
 
 #map {
-    height: 60vh; /* Задайте височината на картата */
+    width: 100%;
+    height: 400px;
+    border-radius: 10px;
+    margin-top: 20px;
 }
 
-.add-parking-container {
-    padding: 20px;
-    background-color: #e3f2fd; /* Светлосин фон за добавяне на паркинг */
-    border-radius: 12px;
-    margin: 20px; /* Разстояние от останалата част на страницата */
+#add-parking-form {
+    display: none; /* Initially hidden */
 }
 
-.add-parking-container h2 {
-    margin-bottom: 15px;
-    color: #333; /* Тъмен текст за заглавието */
-}
-
-.add-parking-container label {
-    display: block;
-    margin: 10px 0 5px;
-    color: #4CAF50; /* Зелени надписи за етикетите */
-}
-
-.add-parking-container input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.add-parking-container button {
-    margin-top: 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #ff9800;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.add-parking-container button:hover {
-    background-color: #e68a00;
+.info-window {
+    max-width: 200px;
+    font-size: 14px;
 }
 
 .icon-container {
     display: flex;
-    justify-content: space-around; /* Разпределя иконите равномерно */
-    padding: 20px; /* Добавя малко разстояние около контейнера */
+    justify-content: center;
+    margin: 10px 0;
 }
 
 .icon {
-    width: 50px; /* Задай ширина на иконите */
-    height: auto; /* Запазва пропорцията */
-    transition: transform 0.2s; /* Добавя ефект на трансформация при задържане */
+    width: 40px; /* Adjust icon size */
+    height: 40px;
+    margin: 0 5px;
 }
 
-.icon:hover {
-    transform: scale(1.1); /* Увеличава иконата при задържане */
+button#installButton {
+    background-color: #007BFF; /* Blue for install button */
+}
+
+button#installButton:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 500px) {
+    .container {
+        width: 90%; /* Adjust container width for smaller screens */
+    }
+
+    button {
+        font-size: 14px; /* Smaller buttons */
+        padding: 8px; /* Smaller padding */
+    }
+
+    input[type="number"], 
+    input[type="text"] {
+        padding: 8px; /* Smaller input padding */
+    }
 }
