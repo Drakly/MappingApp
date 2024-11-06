@@ -91,5 +91,4 @@ def add_parking_zone():
 
 if __name__ == '__main__':
     # Вземи порта от променливата среда PORT или използвай 5000 по подразбиране
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
