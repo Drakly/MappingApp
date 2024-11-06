@@ -1,12 +1,9 @@
 {
   "name": "mappingapp",
   "version": "1.0.0",
-  "main": "index.html",
   "scripts": {
-    "scripts": {
-    "build": "react-scripts build"
-}
-
+    "start": "python app.py",  
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
