@@ -1,8 +1,11 @@
+import os
 from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///parkings.db'  # Настройка на базата данни
+
+# Настройка на базата данни
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///parkings.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -72,10 +75,6 @@ def get_parking_zones():
         'days': zone.days,
     } for zone in zones])
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
 # API маршрут за добавяне на нова зона за паркиране
 @app.route('/api/parking-zones', methods=['POST'])
 def add_parking_zone():
@@ -89,3 +88,8 @@ def add_parking_zone():
     db.session.add(new_zone)
     db.session.commit()
     return jsonify({'message': 'Parking zone added!'}), 201
+
+if __name__ == '__main__':
+    # Вземи порта от променливата среда PORT или използвай 5000 по подразбиране
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
